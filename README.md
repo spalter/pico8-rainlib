@@ -50,3 +50,4 @@ The code is maintained with the [Visual Studio Code](https://code.visualstudio.c
     ```
 
 2. Edit the `.lua` files and simply run the PICO-8 emulator. The library will be loaded automatically. However, make sure to save the lua files.
+3. Before commit changes update the compressed version (`rainlib_m.lua`) with a shrink tool like (Shrinko8)[https://thisismypassport.github.io/shrinko8/]
