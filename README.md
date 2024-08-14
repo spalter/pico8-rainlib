@@ -1,7 +1,13 @@
 # PICO-8 rainlib
 A small library that allows you to create and draw rain effects in PICO-8.
 
+```lua
+Tokens:        440 /  8192
+Characters:   1846 / 65535
+Compressed:    833 / 15616
+```
 ![A small animation showcase of rain effects over a lush nature landscape.](assets/showcase.gif)
+
 
 ## Installation & Usage
 All required code is included in the `rainlib_m.lua` file. Copy the code to one of your PICO-8 cart code tabs and integrate the code into your project. It should look something like this:

@@ -3,24 +3,25 @@
 --source: https://github.com/spalter/rainlib
 
 rainlib = {
-    rain = true,
-    debug = true,
-    has_thunder = false,
-    has_puddles = true,
-    thunder = 0,
-    intensity = 1,
-    direction = 0.2,
-    color = 7,
-    drops = {},
-    puddles = {},
+    rain = false,           -- enable/disable rain
+    has_thunder = false,    -- enable/disable thunder
+    has_puddles = true,     -- enable/disable puddles
+    thunder = 0,            -- tick counter for thunder, don't change this
+    intensity = 1,          -- how many drops per frame are spawned
+    direction = 0.2,        -- how fast the drops move in the x direction
+    color = 7,              -- color of the drops and puddles
+    drops = {},             -- list of drops, don't change this
+    puddles = {},           -- list of puddles, don't change this
 
+    -- init function to enable rain
     init = function(self)
-        if (self.debug) printh("init", 'rainlib', true)
+        self.rain = true
     end,
 
+    -- update function to move drops, show thunder and spawn puddles
     update = function(self)
         if (not self.rain) return
-        self:log("update")
+
         self:spawn_drops()
         self:move_drops()
 
@@ -28,54 +29,54 @@ rainlib = {
         if (self.thunder > 0) self.thunder -=1
     end,
 
+    -- draw function to display rain, put it as last draw call before UI elements
     draw = function(self)
         if (not self.rain) return
-        self:log("draw")
+
         self:render_drops()
         self:render_puddles()
 
         if (self.thunder > 0 and self.thunder != 3) rectfill(0,0,128,128,7)
     end,
 
-    log = function(self, s)
-        if (self.debug) printh(s, 'rainlib', false)
-    end,
-
-    range = function(self, a, b)
-        return flr(a + self.rand((b * 2)))
-    end,
-
+    -- random number function for integers
     rand = function(a)
         return flr(rnd(a))
     end,
 
+    -- spawn drops based on intensity per frame
     spawn_drops = function(self)
         for i=0,self.intensity,1 do
             drop = {
-                x = self:range(-128,256),
+                x = -128 + self.rand(256 * 2),
                 y = 0,
                 len = self.rand(9),
                 target = self.rand(128),
                 hit = false,
             }
+
             add(self.drops,drop)
         end
     end,
 
+    -- spawn puddles based on position a drop hit the ground
+    -- exclude puddles that are out of bounds
     spawn_puddle = function(self, x, y)
         if (not self.has_puddles) return
-        if (x<0 and x>128) return
+        if (x<0 or x>128) return
+
         puddle = {
             x = x,
             y = y,
             age = 0,
         }
+
         add(self.puddles, puddle)
     end,
 
+    -- move drops based on direction and register hits
     move_drops = function(self)
         for drop in all(self.drops) do
-
             if (not drop.hit) then
                 drop.y += 1
                 drop.x += self.direction
@@ -91,6 +92,7 @@ rainlib = {
         end
     end,
 
+    -- draw drops based on length and direction
     render_drops = function(self)
         for drop in all(self.drops) do
             for i=0,drop.len,1 do
@@ -99,6 +101,7 @@ rainlib = {
         end
     end,
 
+    -- draw puddles with size based on age
     render_puddles = function(self)
         for puddle in all(self.puddles) do
             local s = puddle.age
