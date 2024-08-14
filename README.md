@@ -2,25 +2,28 @@
 A small library that allows you to create and draw rain effects in PICO-8.
 
 ## Installation & Usage
-All required code is included in the `rainlib_m.lua` file. Copy the file to your PICO-8 project directory and include it in your `main.lua` file. It should look something like this:
+All required code is included in the `rainlib_m.lua` file. Copy the code to one of your PICO-8 cart code tabs and integrate the code into your project. It should look something like this:
 
 ```lua
-#include "rainlib_m.lua"
-
 function _init()
+    -- your code here --
     rainlib.init()
 end
 
 function _update()
+    -- your code here --
     rainlib.update()
 end
 
 function _draw()
+    -- your code here --
     rainlib.draw()
 end
 ```
 
 There two version of the rainlib in the project. One is the `rainlib.lua` which is the development version with more readable core. The second one is `rainlib_m.lua` which contains a compressed version of the `rainlib.lua`. Use the compressed version unless you want to do changes to the lib. It uses less tokes and characters for your game.
+
+> The rain lib draw call should be the last one before UI elements or anything which should not be affected by the rain effects.
 
 ## Tools
 
