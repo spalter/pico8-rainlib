@@ -5,11 +5,11 @@
 rainlib = {
     rain = true,
     debug = true,
-    has_thunder = true,
+    has_thunder = false,
     has_puddles = true,
     thunder = 0,
     intensity = 1,
-    direction = 0,
+    direction = 0.2,
     color = 7,
     drops = {},
     puddles = {},
@@ -64,6 +64,7 @@ rainlib = {
 
     spawn_puddle = function(self, x, y)
         if (not self.has_puddles) return
+        if (x<0 and x>128) return
         puddle = {
             x = x,
             y = y,
@@ -100,8 +101,8 @@ rainlib = {
 
     render_puddles = function(self)
         for puddle in all(self.puddles) do
-            local s = puddle.age / 2
-            circ(puddle.x, puddle.y, puddle.age, self.color)
+            local s = puddle.age
+            oval(puddle.x-s, puddle.y-(s/2), puddle.x+s, puddle.y+(s/2), self.color)
             puddle.age += 1
             if (puddle.age >= 5) del(self.puddles, puddle)
         end

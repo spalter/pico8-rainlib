@@ -46,7 +46,7 @@ rainlib.has_puddles = true -- default: true
 ### Thunder
 You can show random lightning effects on top of the rain effects.
 ```lua
-rainlib.has_thunder = true -- default: true
+rainlib.has_thunder = true -- default: false
 ```
 
 ### Thunder
