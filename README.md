@@ -27,6 +27,30 @@ There two version of the rainlib in the project. One is the `rainlib.lua` which 
 
 > The rain lib draw call should be the last one before UI elements or anything which should not be affected by the rain effects.
 
+## Features
+
+### Rain
+The lib allows to set the intensity of the rain and the wind direction for the drops.
+
+```lua
+rainlib.intensity = 3 -- will spawn three rain drops per tick (default:1)
+rainlib.direction = 1 -- will move every rain drop one pixel to the right per tick, -1 will move every rain drop to the left per tick (default:0)
+```
+
+### Puddles
+The lib can also draw puddle splashes when the drop hits the ground.
+```lua
+rainlib.has_puddles = true -- default: true
+```
+
+### Thunder
+You can show random lightning effects on top of the rain effects.
+```lua
+rainlib.has_thunder = true -- default: true
+```
+
+### Thunder
+
 ## Tools
 
 ### Aseprite
