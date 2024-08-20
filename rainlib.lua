@@ -15,8 +15,8 @@ rainlib = {
     area = {
         x = 0,
         y = 0,
-        w = 128,
-        h = 128,
+        x2 = 128,
+        y2 = 128,
     },                      -- squared area to let it rain
 
     -- init function to enable rain
@@ -50,22 +50,20 @@ rainlib = {
         return flr(rnd(a))
     end,
 
+    -- random range fucntion for integers
     range = function(a,b)
-        if(a<0) then
-            return flr(a + rnd(b+(a*-1)))
-        else
-            return flr(rnd(b-a) + a)
-        end
+        if (sgn(a)) a *= -1
+        return flr(rnd(b)-a) 
     end,
 
     -- spawn drops based on intensity per frame
     spawn_drops = function(self)
         for i=0,self.intensity,1 do
             drop = {
-                x = self.range(self.area.x, self.area.w),
-                y = 0,
+                x = self.range(self.area.x, self.area.x2),
+                y = self.area.y,
                 len = self.range(3,9),
-                target = self.range(self.area.y, self.area.h),
+                target = self.range(self.area.y, self.area.y2),
                 hit = false,
             }
 
@@ -77,8 +75,8 @@ rainlib = {
     -- exclude puddles that are out of bounds
     spawn_puddle = function(self, x, y)
         if (not self.has_puddles) return
-        if (x < self.area.x or x > self.area.w) return
-        if (y < self.area.y or y > self.area.w) return
+        if (x < self.area.x or x > self.area.x2) return
+        if (y < self.area.y or y > self.area.y2) return
 
         puddle = {
             x = x,
