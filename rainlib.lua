@@ -12,6 +12,12 @@ rainlib = {
     color = 7,              -- color of the drops and puddles
     drops = {},             -- list of drops, don't change this
     puddles = {},           -- list of puddles, don't change this
+    area = {
+        x = 0,
+        y = 0,
+        w = 128,
+        h = 128,
+    },                      -- squared area to let it rain
 
     -- init function to enable rain
     init = function(self)
@@ -36,7 +42,7 @@ rainlib = {
         self:render_drops()
         self:render_puddles()
 
-        if (self.thunder > 0 and self.thunder != 3) rectfill(0,0,128,128,7)
+        if (self.thunder > 0 and self.thunder != 3) rectfill(self.area.x,self.area.y,self.area.w,self.area.h,7)
     end,
 
     -- random number function for integers
@@ -44,14 +50,22 @@ rainlib = {
         return flr(rnd(a))
     end,
 
+    range = function(a,b)
+        if(a<0) then
+            return flr(a + rnd(b+(a*-1)))
+        else
+            return flr(rnd(b-a) + a)
+        end
+    end,
+
     -- spawn drops based on intensity per frame
     spawn_drops = function(self)
         for i=0,self.intensity,1 do
             drop = {
-                x = -128 + self.rand(256 * 2),
+                x = self.range(self.area.x, self.area.w),
                 y = 0,
-                len = self.rand(9),
-                target = self.rand(128),
+                len = self.range(3,9),
+                target = self.range(self.area.y, self.area.h),
                 hit = false,
             }
 
@@ -63,7 +77,8 @@ rainlib = {
     -- exclude puddles that are out of bounds
     spawn_puddle = function(self, x, y)
         if (not self.has_puddles) return
-        if (x<0 or x>128) return
+        if (x < self.area.x or x > self.area.w) return
+        if (y < self.area.y or y > self.area.w) return
 
         puddle = {
             x = x,
